@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
     if (1) {
-        printf("hi");
+        printf( "hi");
     }
     return EXIT_SUCCESS;
 }

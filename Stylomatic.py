@@ -1,5 +1,6 @@
 import Tokeniser
 from Tokeniser import Token
+import sys
 class Rule():
 	def __init__(self,tokenArray,ef,**kargs):
 		self.tokenArray = tokenArray
@@ -19,11 +20,14 @@ class Stylomatic():
 		self.rules = []
 		self.indentWidth = indentWidth
 		self.indentTriggers = {}
+		self.failed = False
+		self.filename = None
 	def enforce(self,rule):
 		self.rules.append(rule)
 	def enforceIndent(self,tokenType,change):
 		self.indentTriggers[tokenType] = change
 	def check(self,filename,debug):
+		self.filename = filename
 		tokeniser = Tokeniser.Tokeniser(filename)
 		indentWidth = self.indentWidth
 		rawTokens = []
@@ -42,13 +46,15 @@ class Stylomatic():
 				if currIndentType == None:
 					currIndentType = "tab"
 				elif currIndentType != "tab":
-					self.raiseIndentFailure(token,"A Mix Of Spaces And Tabs","Either All Tab Or All Space")
+					self.raiseIndentFailure(token,"A Mix","Either All Tab Or All Space")
+					return
 				tokens.append(Token("indent",token.lexme,token.line,token.char))
 			else:
 				if currIndentType == None:
 					currIndentType = "space"
 				elif currIndentType != "space":
-					self.raiseIndentFailure(token,"A Mix Of Spaces And Tabs","Either All Tab Or All Space")
+					self.raiseIndentFailure(token,"A Mix","Either All Tab Or All Space")
+					return
 				indnt = True
 				for j in range(i,i+indentWidth):
 					indnt = indnt and (rawTokens[j].type == "space")
@@ -110,9 +116,11 @@ class Stylomatic():
 				if not rule.reverse:
 					self.raiseFailure(rule,t)
 	def raiseFailure(self,rule, t):
-		print("Rule Failed @ line "+str(t.line)+", char "+str(t.char)+": Expected "+rule.expectedForm)
+		self.failed = True
+		print(self.filename+": Rule Failed @ line "+str(t.line)+": Expected "+rule.expectedForm)
 	def raiseIndentFailure(self,t,curr,correct):
-		print("Rule Failed @ line "+str(t.line)+", char "+str(t.char)+": Expected "+str(correct)+" Indent(s) But Got "+str(curr))
+		self.failed = True
+		print(self.filename+ ": Rule Failed @ line "+str(t.line)+": Expected "+str(correct)+" Indent(s) But Got "+str(curr))
 
 if __name__ == "__main__":
 	# indet width is 4
@@ -132,8 +140,17 @@ if __name__ == "__main__":
 	rules.append(Rule(["identifier",None,"return","space","identifier"],"return EXIT_SUCCESS;",lexs=["main",None,None,None,"EXIT_SUCCESS"]))
 	for rule in rules:
 		styleomatic.enforce(rule)
-	# input fule, False means don't print out debug output
-	styleomatic.check("test_basic.c",False)
+
+	if len(sys.argv) == 1:
+		print("Usage: python Stylomatic.py <files>")
+		exit(0)
+	for arg in sys.argv[1:]:
+		if arg[-2:] != ".c":
+			print("Not a c file. Aborting") 
+		else:
+			styleomatic.check(arg,False)
+	if not styleomatic.failed:
+		print("Awesome Job! No Errors Found!")
 
 
 
