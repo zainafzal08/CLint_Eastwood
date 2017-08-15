@@ -1,0 +1,1019 @@
+comment : 
+* Test if a point is inside a triangle.
+* Julian Saknussemm
+*
+* Given Three points of a triangle, and another arbitrary point this program
+* determines if that point lies inside
+* the triangle.
+*
+* This is determined by satisfying the following rule:
+* A point P(x,y) is inside triangle A(x0,y0), B(x1,y1), C(x2,y2)
+* iff
+* P is on the same side of the line AB as C
+* P is on the same side of the line BC as A
+* and
+* P is on the same side of the line AC as B
+*
+* A special case exits for a vertical line (inf gradient) when testing the side
+*  of the line
+
+newLine : \n
+newLine : \n
+import :  <stdio.h>
+newLine : \n
+define :  UNDER -1
+newLine : \n
+comment :  Returns if a given point (px,py) is under over or on a line
+comment :  1 means over the line
+comment :  0 means on 
+comment :  -1 means under
+primType : int
+space :  
+identifier : getPointLineStatus
+openBracket : (
+space :  
+primType : double
+space :  
+identifier : px
+comma : ,
+space :  
+primType : double
+space :  
+identifier : py
+comma : ,
+space :  
+primType : double
+space :  
+identifier : m
+comma : ,
+space :  
+primType : double
+space :  
+identifier : b
+space :  
+closeBracket : )
+newLine : \n
+openBrace : {
+space :  
+newLine : \n
+tab : 	
+if : if
+openBracket : (
+identifier : py
+space :  
+mathSymbol : <
+space :  
+identifier : m
+space :  
+mathSymbol : *
+space :  
+identifier : px
+space :  
+mathSymbol : +
+space :  
+identifier : b
+closeBracket : )
+space :  
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : return
+space :  
+identifier : UNDER
+semicolon : ;
+space :  
+comment :  point is under line
+space :  
+space :  
+space :  
+space :  
+closeBrace : }
+else : else
+space :  
+if : if
+space :  
+openBracket : (
+space :  
+identifier : py
+space :  
+mathSymbol : ==
+space :  
+identifier : m
+space :  
+mathSymbol : *
+space :  
+identifier : px
+space :  
+mathSymbol : +
+space :  
+identifier : b
+space :  
+closeBracket : )
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : return
+space :  
+numberLiteral : 0
+semicolon : ;
+space :  
+comment :  point is on the line
+space :  
+space :  
+space :  
+space :  
+closeBrace : }
+space :  
+else : else
+space :  
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : return
+space :  
+numberLiteral : 1
+semicolon : ;
+space :  
+comment :  point is over
+space :  
+space :  
+space :  
+space :  
+closeBrace : }
+newLine : \n
+closeBrace : }
+newLine : \n
+newLine : \n
+primType : int
+space :  
+identifier : test1
+openBracket : (
+space :  
+primType : double
+space :  
+identifier : px
+comma : ,
+space :  
+primType : double
+space :  
+identifier : py
+comma : ,
+space :  
+primType : double
+space :  
+identifier : m
+comma : ,
+primType : double
+space :  
+identifier : b
+comma : ,
+space :  
+primType : double
+space :  
+identifier : lx
+comma : ,
+primType : double
+space :  
+identifier : ly
+closeBracket : )
+space :  
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+primType : int
+space :  
+identifier : x
+space :  
+equals : =
+space :  
+numberLiteral : 5
+space :  
+mathSymbol : <
+space :  
+numberLiteral : 6
+space :  
+mathSymbol : +
+numberLiteral : 1
+space :  
+semicolon : ;
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : return
+space :  
+openBracket : (
+identifier : test2
+openBracket : (
+space :  
+identifier : px
+comma : ,
+identifier : py
+comma : ,
+space :  
+identifier : m
+comma : ,
+identifier : b
+space :  
+closeBracket : )
+mathSymbol : ==
+identifier : test2
+openBracket : (
+identifier : lx
+comma : ,
+identifier : ly
+comma : ,
+identifier : m
+comma : ,
+identifier : b
+closeBracket : )
+closeBracket : )
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+primType : int
+space :  
+identifier : tritest
+openBracket : (
+primType : double
+space :  
+identifier : x0
+comma : ,
+primType : double
+space :  
+identifier : y0
+comma : ,
+primType : double
+space :  
+identifier : x1
+comma : ,
+primType : double
+space :  
+identifier : y1
+comma : ,
+identifier : double
+newLine : \n
+identifier : x2
+comma : ,
+primType : double
+space :  
+identifier : y2
+comma : ,
+primType : double
+space :  
+identifier : px
+comma : ,
+space :  
+primType : double
+space :  
+identifier : py
+closeBracket : )
+openBrace : {
+newLine : \n
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+primType : int
+space :  
+identifier : line1
+comma : ,
+space :  
+identifier : line2
+comma : ,
+space :  
+identifier : line3
+semicolon : ;
+newLine : \n
+comment :  line eqns
+newLine : \n
+primType : double
+space :  
+identifier : m01
+space :  
+equals : =
+space :  
+openBracket : (
+identifier : y1
+mathSymbol : -
+identifier : y0
+closeBracket : )
+mathSymbol : /
+openBracket : (
+identifier : x1
+mathSymbol : -
+identifier : x0
+closeBracket : )
+semicolon : ;
+newLine : \n
+comment :  b: y - y1 = m( x - x1 ), x = 0
+primType : double
+space :  
+identifier : b01
+space :  
+equals : =
+space :  
+identifier : m01
+space :  
+mathSymbol : *
+space :  
+mathSymbol : -
+identifier : x1
+space :  
+mathSymbol : +
+space :  
+identifier : y1
+semicolon : ;
+newLine : \n
+primType : double
+space :  
+identifier : m02
+comma : ,
+space :  
+identifier : m12
+comma : ,
+space :  
+identifier : b02
+comma : ,
+space :  
+identifier : b12
+semicolon : ;
+newLine : \n
+identifier : m02
+space :  
+equals : =
+space :  
+openBracket : (
+identifier : y2
+mathSymbol : -
+identifier : y0
+closeBracket : )
+mathSymbol : /
+openBracket : (
+identifier : x2
+mathSymbol : -
+identifier : x0
+closeBracket : )
+semicolon : ;
+newLine : \n
+identifier : m12
+space :  
+equals : =
+space :  
+openBracket : (
+identifier : y2
+mathSymbol : -
+identifier : y1
+closeBracket : )
+mathSymbol : /
+openBracket : (
+identifier : x2
+mathSymbol : -
+identifier : x1
+closeBracket : )
+semicolon : ;
+newLine : \n
+identifier : b02
+space :  
+equals : =
+space :  
+identifier : m02
+space :  
+mathSymbol : *
+space :  
+mathSymbol : -
+identifier : x2
+space :  
+mathSymbol : +
+space :  
+identifier : y2
+semicolon : ;
+newLine : \n
+identifier : b12
+space :  
+equals : =
+space :  
+identifier : m12
+space :  
+mathSymbol : *
+space :  
+mathSymbol : -
+identifier : x2
+space :  
+mathSymbol : +
+space :  
+identifier : y2
+semicolon : ;
+newLine : \n
+newLine : \n
+comment :  vertical line checks
+if : if
+openBracket : (
+space :  
+identifier : x1
+space :  
+mathSymbol : ==
+space :  
+identifier : x0
+space :  
+closeBracket : )
+space :  
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+identifier : line1
+space :  
+equals : =
+space :  
+openBracket : (
+space :  
+openBracket : (
+identifier : px
+space :  
+mathSymbol : <
+equals : =
+space :  
+identifier : x0
+closeBracket : )
+space :  
+mathSymbol : ==
+space :  
+openBracket : (
+identifier : x2
+space :  
+mathSymbol : <
+equals : =
+space :  
+identifier : x0
+closeBracket : )
+space :  
+closeBracket : )
+semicolon : ;
+newLine : \n
+closeBrace : }
+space :  
+else : else
+space :  
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+identifier : line1
+space :  
+equals : =
+space :  
+identifier : test1
+openBracket : (
+space :  
+identifier : px
+comma : ,
+space :  
+identifier : py
+comma : ,
+space :  
+identifier : m01
+comma : ,
+space :  
+identifier : b01
+comma : ,
+identifier : x2
+comma : ,
+identifier : y2
+closeBracket : )
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+newLine : \n
+if : if
+openBracket : (
+space :  
+identifier : x1
+space :  
+mathSymbol : ==
+space :  
+identifier : x2
+space :  
+closeBracket : )
+space :  
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : line2
+space :  
+equals : =
+space :  
+openBracket : (
+space :  
+openBracket : (
+identifier : px
+space :  
+mathSymbol : <
+equals : =
+space :  
+identifier : x2
+closeBracket : )
+space :  
+mathSymbol : ==
+space :  
+openBracket : (
+identifier : x0
+space :  
+mathSymbol : <
+equals : =
+space :  
+identifier : x2
+closeBracket : )
+space :  
+closeBracket : )
+semicolon : ;
+newLine : \n
+closeBrace : }
+space :  
+else : else
+space :  
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : line2
+space :  
+equals : =
+space :  
+identifier : test1
+openBracket : (
+identifier : px
+comma : ,
+identifier : py
+comma : ,
+space :  
+identifier : m12
+comma : ,
+space :  
+identifier : b12
+comma : ,
+identifier : x0
+comma : ,
+identifier : y0
+closeBracket : )
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+newLine : \n
+if : if
+openBracket : (
+space :  
+identifier : x2
+space :  
+mathSymbol : ==
+space :  
+identifier : x0
+space :  
+closeBracket : )
+space :  
+openBrace : {
+newLine : \n
+identifier : line3
+space :  
+equals : =
+space :  
+openBracket : (
+space :  
+openBracket : (
+identifier : px
+space :  
+mathSymbol : <
+equals : =
+space :  
+identifier : x0
+space :  
+closeBracket : )
+space :  
+mathSymbol : ==
+space :  
+openBracket : (
+identifier : x1
+space :  
+mathSymbol : <
+equals : =
+space :  
+identifier : x0
+closeBracket : )
+space :  
+closeBracket : )
+semicolon : ;
+closeBrace : }
+space :  
+else : else
+space :  
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : line3
+space :  
+equals : =
+space :  
+identifier : test1
+openBracket : (
+identifier : px
+comma : ,
+space :  
+identifier : py
+comma : ,
+space :  
+identifier : m02
+comma : ,
+identifier : b02
+comma : ,
+identifier : x1
+comma : ,
+identifier : y1
+closeBracket : )
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+newLine : \n
+space :  
+space :  
+space :  
+identifier : return
+space :  
+identifier : line1
+space :  
+identifier : &
+identifier : &
+space :  
+identifier : line2
+space :  
+identifier : &
+identifier : &
+space :  
+identifier : line3
+semicolon : ;
+newLine : \n
+newLine : \n
+closeBrace : }
+newLine : \n
+primType : int
+space :  
+identifier : main
+openBracket : (
+primType : int
+space :  
+identifier : argc
+comma : ,
+space :  
+primType : char
+space :  
+mathSymbol : *
+identifier : argv
+openSquareBracket : [
+closeSquareBracket : ]
+closeBracket : )
+space :  
+openBrace : {
+newLine : \n
+primType : double
+space :  
+identifier : x0
+comma : ,
+identifier : y0
+comma : ,
+identifier : x1
+comma : ,
+identifier : y1
+comma : ,
+identifier : x2
+comma : ,
+identifier : y2
+comma : ,
+identifier : px
+semicolon : ;
+newLine : \n
+primType : double
+space :  
+identifier : py
+semicolon : ;
+newLine : \n
+newLine : \n
+primType : int
+space :  
+identifier : scanfsReturnValueAggregatedOverAllScanfs
+space :  
+equals : =
+space :  
+numberLiteral : 0
+semicolon : ;
+newLine : \n
+newLine : \n
+comment :  get input
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "Triangle Vertex A (x,y): "
+closeBracket : )
+semicolon : ;
+newLine : \n
+identifier : scanfsReturnValueAggregatedOverAllScanfs
+space :  
+mathSymbol : +
+equals : =
+space :  
+identifier : scanf
+openBracket : (
+stringLiteral : "%lf,%lf"
+comma : ,
+newLine : \n
+identifier : &x0
+comma : ,
+identifier : &y0
+closeBracket : )
+semicolon : ;
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "Triangle Vertex  B (x,y): "
+closeBracket : )
+semicolon : ;
+newLine : \n
+identifier : scanfsReturnValueAggregatedOverAllScanfs
+space :  
+mathSymbol : +
+equals : =
+space :  
+identifier : scanf
+openBracket : (
+stringLiteral : "%lf,%lf"
+comma : ,
+newLine : \n
+identifier : &x1
+comma : ,
+identifier : &y1
+closeBracket : )
+semicolon : ;
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "Triangle Vertex  C (x,y): "
+closeBracket : )
+semicolon : ;
+newLine : \n
+identifier : scanfsReturnValueAggregatedOverAllScanfs
+space :  
+mathSymbol : +
+equals : =
+space :  
+identifier : scanf
+openBracket : (
+stringLiteral : "%lf,%lf"
+comma : ,
+newLine : \n
+identifier : &x2
+comma : ,
+identifier : &y2
+closeBracket : )
+semicolon : ;
+newLine : \n
+space :  
+space :  
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "Test Point (x,y): "
+closeBracket : )
+semicolon : ;
+newLine : \n
+identifier : scanfsReturnValueAggregatedOverAllScanfs
+space :  
+mathSymbol : +
+equals : =
+space :  
+identifier : scanf
+openBracket : (
+stringLiteral : "%lf,%lf"
+comma : ,
+newLine : \n
+identifier : &px
+comma : ,
+identifier : &py
+closeBracket : )
+semicolon : ;
+newLine : \n
+newLine : \n
+comment :  print error
+space :  
+space :  
+space :  
+if : if
+openBracket : (
+space :  
+identifier : scanfsReturnValueAggregatedOverAllScanfs
+space :  
+identifier : !
+equals : =
+space :  
+numberLiteral : 8
+space :  
+closeBracket : )
+space :  
+openBrace : {
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "You're stupid and didn't put in the right inputs!\n"
+closeBracket : )
+semicolon : ;
+newLine : \n
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+space :  
+identifier : return
+space :  
+numberLiteral : 1
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+newLine : \n
+comment :  print answer
+space :  
+space :  
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "Point (%.2lf,%.2lf) is "
+comma : ,
+space :  
+identifier : px
+comma : ,
+identifier : py
+closeBracket : )
+semicolon : ;
+newLine : \n
+space :  
+space :  
+space :  
+if : if
+openBracket : (
+identifier : tritest
+openBracket : (
+identifier : x0
+comma : ,
+identifier : y0
+comma : ,
+identifier : x1
+comma : ,
+identifier : y1
+comma : ,
+identifier : x2
+comma : ,
+identifier : y2
+comma : ,
+identifier : px
+comma : ,
+identifier : py
+closeBracket : )
+closeBracket : )
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "inside"
+closeBracket : )
+semicolon : ;
+newLine : \n
+space :  
+space :  
+space :  
+else : else
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "outside"
+closeBracket : )
+semicolon : ;
+newLine : \n
+space :  
+space :  
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : " the Triangel\n"
+closeBracket : )
+semicolon : ;
+newLine : \n
+newLine : \n
+comment :  return 0
+identifier : return
+space :  
+numberLiteral : 0
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
