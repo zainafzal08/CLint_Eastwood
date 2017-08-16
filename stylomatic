@@ -2,5 +2,5 @@
 if [ $# -eq 0 ]; then
 	echo "Usage: ./stylomatic <files>"
 else
-	python resources/Stylomatic.py $@
+	python ~z5059449/Ctyle_Checker/resources/Stylomatic.py $@
 fi

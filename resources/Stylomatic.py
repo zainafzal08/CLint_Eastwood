@@ -17,6 +17,8 @@ class Rule():
 			self.lexs = kargs["lexs"]
 			if len(self.lexs) != len(self.tokenArray):
 				raise Exception("Supplied lexs array inconsistent with token array")
+
+#TODO: indent checking is still a lil broken. 
 class Stylomatic():
 	def __init__(self,indentWidth):
 		self.rules = []
@@ -52,15 +54,15 @@ class Stylomatic():
 					return
 				tokens.append(Token("indent",token.lexme,token.line,token.char))
 			else:
-				if currIndentType == None:
-					currIndentType = "space"
-				elif currIndentType != "space":
-					self.raiseIndentFailure(token,"A Mix","Either All Tab Or All Space")
-					return
 				indnt = True
 				for j in range(i,i+indentWidth):
 					indnt = indnt and (rawTokens[j].type == "space")
 				if indnt:
+					if currIndentType == None:
+						currIndentType = "space"
+					elif currIndentType != "space":
+						self.raiseIndentFailure(token,"A Mix","Either All Tab Or All Space")
+						return
 					tokens.append(Token("indent",token.lexme,token.line,token.char))
 					i+=indentWidth-1
 				else:

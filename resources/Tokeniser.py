@@ -15,7 +15,7 @@ class Token():
 
 # TODO: line/index for multi line comments is a bit fucked yo. 
 # TODO: tokeniser assumes #define and #import end with new lines
-# 
+# TODO: tokeniser ,misses the ending \" with LL skip untill :/
 class Tokeniser():
 	def __init__(self, filename):
 		self.stream = InputStream(filename)
