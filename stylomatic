@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Written By Zain Afzal z5059449
 if [ $# -eq 0 ]; then
 	echo "Usage: ./stylomatic <files>"
 else
