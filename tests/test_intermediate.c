@@ -29,7 +29,7 @@ int main(void){
 
 
 struct renderer newRenderer(int lineLength, int starNum, int drift){
-	// generate screen 
+	// generate screen
 	struct renderer screen;
 	screen.starIndexes = malloc(sizeof(int)*starNum);
 	screen.starDirections = malloc(sizeof(int)*starNum);

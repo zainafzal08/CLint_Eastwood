@@ -1,0 +1,838 @@
+include : #include <stdio.h>
+include : #include <stdlib.h>
+include : #include <unistd.h>
+newLine : \n
+define : #define TRUE 1
+define : #define FALSE 0
+newLine : \n
+primType : struct
+space :  
+identifier : renderer
+openBrace : {
+newLine : \n
+tab : 	
+primType : int
+space :  
+mathSymbol : *
+identifier : starIndexes
+semicolon : ;
+newLine : \n
+tab : 	
+primType : int
+space :  
+mathSymbol : *
+identifier : starDirections
+semicolon : ;
+newLine : \n
+tab : 	
+primType : int
+space :  
+identifier : numStars
+semicolon : ;
+newLine : \n
+tab : 	
+primType : int
+space :  
+identifier : lineLength
+semicolon : ;
+newLine : \n
+closeBrace : }
+semicolon : ;
+newLine : \n
+newLine : \n
+primType : void
+space :  
+identifier : progressScreen
+openBracket : (
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+closeBracket : )
+semicolon : ;
+newLine : \n
+primType : void
+space :  
+identifier : printLine
+openBracket : (
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+closeBracket : )
+semicolon : ;
+newLine : \n
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : newRenderer
+openBracket : (
+primType : int
+space :  
+identifier : lineLength
+comma : ,
+space :  
+primType : int
+space :  
+identifier : starNum
+comma : ,
+space :  
+primType : int
+space :  
+identifier : drift
+closeBracket : )
+semicolon : ;
+newLine : \n
+primType : void
+space :  
+identifier : step
+openBracket : (
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+closeBracket : )
+semicolon : ;
+newLine : \n
+primType : void
+space :  
+identifier : destoryRenderer
+openBracket : (
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+closeBracket : )
+semicolon : ;
+newLine : \n
+newLine : \n
+primType : int
+space :  
+identifier : main
+openBracket : (
+identifier : void
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+space :  
+equals : =
+space :  
+identifier : newRenderer
+openBracket : (
+identifier : 100
+comma : ,
+space :  
+numberLiteral : 4
+space :  
+comma : ,
+space :  
+identifier : 0
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+while : while
+space :  
+openBracket : (
+identifier : 1
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+identifier : step
+openBracket : (
+identifier : screen
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+identifier : destoryRenderer
+openBracket : (
+identifier : screen
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+return : return
+space :  
+identifier : EXIT_SUCCESS
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+newLine : \n
+newLine : \n
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : newRenderer
+openBracket : (
+primType : int
+space :  
+identifier : lineLength
+comma : ,
+space :  
+primType : int
+space :  
+identifier : starNum
+comma : ,
+space :  
+primType : int
+space :  
+identifier : drift
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+comment : // generate screen
+tab : 	
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+semicolon : ;
+newLine : \n
+tab : 	
+identifier : screen
+identifier : .starIndexes
+space :  
+equals : =
+space :  
+identifier : malloc
+openBracket : (
+identifier : sizeof
+openBracket : (
+identifier : int
+closeBracket : )
+mathSymbol : *
+identifier : starNum
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+identifier : screen
+identifier : .starDirections
+space :  
+equals : =
+space :  
+identifier : malloc
+openBracket : (
+identifier : sizeof
+openBracket : (
+identifier : int
+closeBracket : )
+mathSymbol : *
+identifier : starNum
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+identifier : screen
+identifier : .numStars
+space :  
+equals : =
+space :  
+identifier : starNum
+semicolon : ;
+newLine : \n
+tab : 	
+identifier : screen
+identifier : .lineLength
+space :  
+equals : =
+space :  
+identifier : lineLength
+semicolon : ;
+newLine : \n
+tab : 	
+comment : // set up the stars
+tab : 	
+primType : int
+space :  
+identifier : x
+space :  
+equals : =
+space :  
+numberLiteral : 0
+semicolon : ;
+newLine : \n
+tab : 	
+while : while
+space :  
+openBracket : (
+identifier : x
+space :  
+mathSymbol : <
+space :  
+identifier : starNum
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+if : if
+space :  
+openBracket : (
+identifier : x
+identifier : %2
+space :  
+mathSymbol : =
+equals : =
+space :  
+identifier : 0
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+identifier : screen
+identifier : .starIndexes
+openSquareBracket : [
+identifier : x
+closeSquareBracket : ]
+space :  
+equals : =
+space :  
+numberLiteral : 0
+space :  
+mathSymbol : +
+space :  
+identifier : drift
+mathSymbol : *
+identifier : x
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+identifier : screen
+identifier : .starDirections
+openSquareBracket : [
+identifier : 0
+closeSquareBracket : ]
+space :  
+equals : =
+space :  
+numberLiteral : 1
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+tab : 	
+else : else
+space :  
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+identifier : screen
+identifier : .starIndexes
+openSquareBracket : [
+identifier : x
+closeSquareBracket : ]
+space :  
+equals : =
+space :  
+identifier : lineLength
+mathSymbol : -
+numberLiteral : 1
+space :  
+mathSymbol : -
+space :  
+identifier : drift
+mathSymbol : *
+identifier : x
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+identifier : screen
+identifier : .starDirections
+openSquareBracket : [
+identifier : 1
+closeSquareBracket : ]
+space :  
+equals : =
+space :  
+mathSymbol : -
+numberLiteral : 1
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+tab : 	
+identifier : x
+mathSymbol : +
+mathSymbol : +
+semicolon : ;
+newLine : \n
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+return : return
+space :  
+identifier : screen
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+newLine : \n
+primType : void
+space :  
+identifier : destoryRenderer
+openBracket : (
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+identifier : free
+openBracket : (
+identifier : screen
+identifier : .starIndexes
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+identifier : free
+openBracket : (
+identifier : screen
+identifier : .starDirections
+closeBracket : )
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+primType : void
+space :  
+identifier : step
+openBracket : (
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+identifier : printf
+openBracket : (
+stringLiteral : "\n
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+identifier : printLine
+openBracket : (
+identifier : screen
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+identifier : progressScreen
+openBracket : (
+identifier : screen
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+identifier : usleep
+openBracket : (
+identifier : 20
+mathSymbol : *
+identifier : 1000
+closeBracket : )
+semicolon : ;
+newLine : \n
+closeBrace : }
+newLine : \n
+primType : void
+space :  
+identifier : progressScreen
+openBracket : (
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+primType : int
+space :  
+identifier : j
+space :  
+equals : =
+space :  
+numberLiteral : 0
+semicolon : ;
+newLine : \n
+tab : 	
+primType : int
+space :  
+identifier : lineLength
+equals : =
+space :  
+identifier : screen
+identifier : .lineLength
+semicolon : ;
+newLine : \n
+tab : 	
+for : for
+space :  
+openBracket : (
+identifier : j
+equals : =
+numberLiteral : 0
+semicolon : ;
+space :  
+identifier : j
+space :  
+mathSymbol : <
+space :  
+identifier : screen
+identifier : .numStars
+semicolon : ;
+space :  
+identifier : j
+mathSymbol : +
+mathSymbol : +
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+if : if
+space :  
+openBracket : (
+identifier : screen
+identifier : .starIndexes
+openSquareBracket : [
+identifier : j
+closeSquareBracket : ]
+space :  
+mathSymbol : =
+equals : =
+space :  
+identifier : lineLength
+mathSymbol : -
+identifier : 1
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+identifier : screen
+identifier : .starDirections
+openSquareBracket : [
+identifier : j
+closeSquareBracket : ]
+space :  
+equals : =
+space :  
+mathSymbol : -
+numberLiteral : 1
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+tab : 	
+if : if
+space :  
+openBracket : (
+identifier : screen
+identifier : .starIndexes
+openSquareBracket : [
+identifier : j
+closeSquareBracket : ]
+space :  
+mathSymbol : =
+equals : =
+space :  
+identifier : 0
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+identifier : screen
+identifier : .starDirections
+openSquareBracket : [
+identifier : j
+closeSquareBracket : ]
+space :  
+equals : =
+space :  
+numberLiteral : 1
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+for : for
+space :  
+openBracket : (
+identifier : j
+equals : =
+numberLiteral : 0
+semicolon : ;
+space :  
+identifier : j
+space :  
+mathSymbol : <
+space :  
+identifier : screen
+identifier : .numStars
+semicolon : ;
+space :  
+identifier : j
+mathSymbol : +
+mathSymbol : +
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+identifier : screen
+identifier : .starIndexes
+openSquareBracket : [
+identifier : j
+closeSquareBracket : ]
+space :  
+equals : =
+space :  
+identifier : screen
+identifier : .starIndexes
+openSquareBracket : [
+identifier : j
+closeSquareBracket : ]
+space :  
+mathSymbol : +
+space :  
+identifier : screen
+identifier : .starDirections
+openSquareBracket : [
+identifier : j
+closeSquareBracket : ]
+semicolon : ;
+newLine : \n
+tab : 	
+closeBrace : }
+newLine : \n
+closeBrace : }
+newLine : \n
+newLine : \n
+primType : void
+space :  
+identifier : printLine
+openBracket : (
+primType : struct
+space :  
+identifier : renderer
+space :  
+identifier : screen
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+primType : int
+space :  
+identifier : i
+space :  
+equals : =
+space :  
+numberLiteral : 0
+semicolon : ;
+newLine : \n
+tab : 	
+primType : int
+space :  
+identifier : j
+space :  
+equals : =
+space :  
+numberLiteral : 0
+semicolon : ;
+newLine : \n
+tab : 	
+for : for
+space :  
+openBracket : (
+identifier : i
+equals : =
+numberLiteral : 0
+semicolon : ;
+space :  
+identifier : i
+mathSymbol : <
+identifier : screen
+identifier : .lineLength
+semicolon : ;
+space :  
+identifier : i
+mathSymbol : +
+mathSymbol : +
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+primType : int
+space :  
+identifier : printed
+space :  
+equals : =
+space :  
+identifier : FALSE
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+for : for
+space :  
+openBracket : (
+identifier : j
+equals : =
+numberLiteral : 0
+semicolon : ;
+space :  
+identifier : j
+mathSymbol : <
+identifier : screen
+identifier : .numStars
+semicolon : ;
+space :  
+identifier : j
+mathSymbol : +
+mathSymbol : +
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+if : if
+space :  
+openBracket : (
+identifier : i
+space :  
+mathSymbol : =
+equals : =
+space :  
+identifier : screen
+identifier : .starIndexes
+openSquareBracket : [
+identifier : j
+closeSquareBracket : ]
+space :  
+identifier : &
+identifier : &
+space :  
+identifier : printed
+space :  
+mathSymbol : =
+equals : =
+space :  
+identifier : FALSE
+closeBracket : )
+openBrace : {
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+tab : 	
+identifier : printed
+space :  
+equals : =
+space :  
+identifier : TRUE
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+tab : 	
+identifier : printf
+openBracket : (
+stringLiteral : "*
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+tab : 	
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+tab : 	
+closeBrace : }
+newLine : \n
+tab : 	
+tab : 	
+if : if
+space :  
+openBracket : (
+identifier : printed
+space :  
+mathSymbol : =
+equals : =
+space :  
+identifier : FALSE
+closeBracket : )
+space :  
+identifier : printf
+openBracket : (
+stringLiteral : "-
+closeBracket : )
+semicolon : ;
+newLine : \n
+tab : 	
+closeBrace : }
+newLine : \n
+closeBrace : }
+tests/test_intermediate.c: Rule Failed @ line 32: Expected 1 Indent(s) But Got 2
+tests/test_intermediate.c: Rule Failed @ line 38: Expected 1 Indent(s) But Got 2
+tests/test_intermediate.c: Rule Failed @ line 92: Expected 2 Indent(s) But Got 0

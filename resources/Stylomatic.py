@@ -18,7 +18,6 @@ class Rule():
 			if len(self.lexs) != len(self.tokenArray):
 				raise Exception("Supplied lexs array inconsistent with token array")
 
-#TODO: indent checking is still a lil broken. 
 class Stylomatic():
 	def __init__(self,indentWidth):
 		self.rules = []
@@ -90,7 +89,7 @@ class Stylomatic():
 			if(expect):
 				if(currIndent == correctIndent):
 					expect = False
-					if(i+1 < len(tokens) and tokens[i].type == "indent"):
+					if(i+1 < len(tokens) and tokens[i+1].type == "indent"):
 						self.raiseIndentFailure(t,currIndent+1,correctIndent)
 				elif(t.type != "indent"):
 					self.raiseIndentFailure(t,currIndent,correctIndent)
@@ -162,7 +161,7 @@ if __name__ == "__main__":
 			print(arg+" cannot be found. Aborting...") 
 		else:
 			# actually trigger the stylomatic to check a file
-			styleomatic.check(arg,False)
+			styleomatic.check(arg,True)
 	if not styleomatic.failed:
 		print("Awesome Job! No Errors Found!")
 
