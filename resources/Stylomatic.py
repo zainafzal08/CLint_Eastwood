@@ -69,7 +69,16 @@ class Stylomatic():
 			i+=1
 
 		for i in range(len(rawTokens)-indentWidth,len(rawTokens)):
-			tokens.append(rawTokens[i])
+			token = rawTokens[i]
+			if token.type == "tab":
+				if currIndentType == None:
+					currIndentType = "tab"
+				elif currIndentType != "tab":
+					self.raiseIndentFailure(token,"A Mix","Either All Tab Or All Space")
+					return
+				tokens.append(Token("indent",token.lexme,token.line,token.char))
+			else:
+				tokens.append(token)
 		# enforce indenting
 		self.enforceIndenting(tokens)
 		# enforce rest of the rules
@@ -161,7 +170,7 @@ if __name__ == "__main__":
 			print(arg+" cannot be found. Aborting...") 
 		else:
 			# actually trigger the stylomatic to check a file
-			styleomatic.check(arg,True)
+			styleomatic.check(arg,False)
 	if not styleomatic.failed:
 		print("Awesome Job! No Errors Found!")
 

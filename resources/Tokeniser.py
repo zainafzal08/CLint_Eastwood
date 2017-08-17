@@ -22,73 +22,76 @@ class Tokeniser():
 		self.complete = False
 		self.LL0TokenMap = {
 			# white space
-			" ":("space",None),
-			"	":("tab",None),
-			"\n":("newLine",None),
+			" ":("space",None,False),
+			"	":("tab",None,False),
+			"\n":("newLine",None,False),
 			# braces/brackets
-			"{":("openBrace",None),
-			"}":("closeBrace",None),
-			"(":("openBracket",None),
-			")":("closeBracket",None),
-			"[":("openSquareBracket",None),
-			"]":("closeSquareBracket",None),
+			"{":("openBrace",None,False),
+			"}":("closeBrace",None,False),
+			"(":("openBracket",None,False),
+			")":("closeBracket",None,False),
+			"[":("openSquareBracket",None,False),
+			"]":("closeSquareBracket",None,False),
 			# basic control
-			";":("semicolon",None),
-			",":("comma",None),
+			";":("semicolon",None,False),
+			",":("comma",None,False),
 			# math
-			"+":("mathSymbol",None),
-			"-":("mathSymbol",None),
-			"/":("mathSymbol",None),
-			"*":("mathSymbol",None),
-			">":("mathSymbol",None),
-			"<":("mathSymbol",None),
+			"+":("mathSymbol",None,False),
+			"-":("mathSymbol",None,False),
+			"/":("mathSymbol",None,False),
+			"*":("mathSymbol",None,False),
+			">":("mathSymbol",None,False),
+			"<":("mathSymbol",None,False),
 			"=":("equals",None),
-			"\"":("stringLiteral","\""),
-			"'":("charLiteral","'")
+			"\"":("stringLiteral","\"",True),
+			"'":("charLiteral","'",True)
 		}
 		# token, lookahead -> token-type, terminating symbol, terminating symbol lookahead
 		self.LL1TokenMap = {
-			("/","/"):("comment","\n",None),
-			("/","*"):("comment","*","/"),
-			("=","="):("mathSymbol",None,None),
-			("if","("):("if",None,None),
-			("if"," "):("if",None,None),
-			("else","{"):("else",None,None),
-			("else"," "):("else",None,None),
-			("while","("):("while",None,None),
-			("while"," "):("while",None,None),
-			("for","("):("for",None,None),
-			("for"," "):("for",None,None),
-			("#include"," "):("include",'\n',None),
-			("#define"," "):("define",'\n',None),
-			("return"," "):("return",None,None),
-			("void"," "):("primType",None,None),
-			("char"," "):("primType",None,None),
-			("short"," "):("primType",None,None),
-			("int"," "):("primType",None,None),
-			("long"," "):("primType",None,None),
-			("float"," "):("primType",None,None),
-			("double"," "):("primType",None,None),
-			("signed"," "):("primType",None,None),
-			("unsigned"," "):("primType",None,None),
-			("struct"," "):("primType",None,None),
-			("union"," "):("primType",None,None),
-			("const"," "):("primType",None,None),
-			("volatile"," "):("primType",None,None)
+			("/","/"):("comment","\n",None,False),
+			("/","*"):("comment","*","/",True),
+			("=","="):("mathSymbol",None,None,False),
+			("if","("):("if",None,None,False),
+			("if"," "):("if",None,None,False),
+			("else","{"):("else",None,None,False),
+			("else"," "):("else",None,None,False),
+			("while","("):("while",None,None,False),
+			("while"," "):("while",None,None,False),
+			("for","("):("for",None,None,False),
+			("for"," "):("for",None,None,False),
+			("#include"," "):("include",'\n',None,False),
+			("#define"," "):("define",'\n',None,False),
+			("return"," "):("return",None,None,False),
+			("void"," "):("primType",None,None,False),
+			("char"," "):("primType",None,None,False),
+			("short"," "):("primType",None,None,False),
+			("int"," "):("primType",None,None,False),
+			("long"," "):("primType",None,None,False),
+			("float"," "):("primType",None,None,False),
+			("double"," "):("primType",None,None,False),
+			("signed"," "):("primType",None,None,False),
+			("unsigned"," "):("primType",None,None,False),
+			("struct"," "):("primType",None,None,False),
+			("union"," "):("primType",None,None,False),
+			("const"," "):("primType",None,None,False),
+			("volatile"," "):("primType",None,None,False)
 		}
 
-	def LL1SkipUntil(self,stream,curr,s):
+	def LL1SkipUntil(self,stream,curr,s,inclTerminal):
 		while stream.peek() != s:
 			curr+= stream.getNext()
-		stream.getNext()
+		if inclTerminal:
+			curr += stream.getNext()
 		return curr
 
-	def LL2SkipUntil(self,stream,curr,s,n):
+	def LL2SkipUntil(self,stream,curr,s,n,inclTerminal):
 		next = stream.getNext()
 		while not (next == s and stream.peek() == n):
 			curr += next
 			next = stream.getNext()
-		stream.getNext()
+		if inclTerminal:
+			curr += next
+			curr += stream.getNext()
 		return curr
 
 	def getToken(self):
@@ -107,16 +110,16 @@ class Tokeniser():
 				if tokenInfo[1] == None:
 					pass
 				elif tokenInfo[2] == None:
-					curr = self.LL1SkipUntil(stream,curr,tokenInfo[1])
+					curr = self.LL1SkipUntil(stream,curr,tokenInfo[1],tokenInfo[2])
 				else:
-					curr = self.LL2SkipUntil(stream,curr,tokenInfo[1],tokenInfo[2])
+					curr = self.LL2SkipUntil(stream,curr,tokenInfo[1],tokenInfo[2],tokenInfo[3])
 				return Token(tokenInfo[0],curr,stream.currLine,stream.lineIndex)
 
 			# LL0 tokens
 			if curr.lower() in self.LL0TokenMap:
 				prev = curr.lower()
 				if self.LL0TokenMap[curr.lower()][1] != None:
-					curr = self.LL1SkipUntil(stream,curr,self.LL0TokenMap[prev][1])
+					curr = self.LL1SkipUntil(stream,curr,self.LL0TokenMap[prev][1],self.LL0TokenMap[prev][2])
 				return Token(self.LL0TokenMap[prev][0],curr,stream.currLine,stream.lineIndex)
 
 			# general token cases
