@@ -149,10 +149,12 @@ if __name__ == "__main__":
 	rules.append(Rule(["else","space","openBrace"],"else<space>{"))
 	rules.append(Rule(["while","space","openBracket"],"while<space>("))
 	rules.append(Rule(["for","space","openBracket"],"for<space>("))
+	rules.append(Rule(["openBrace","newLine"],"A new line after {"))
+	rules.append(Rule(["openBrace","newLine"],"A new line after }"))
 	rules.append(Rule(["openBracket","space"],"No Space After A Open Bracket",reverse=True))
 	rules.append(Rule(["space","closeBracket"],"No Space Before A Close Bracket",reverse=True))
 	rules.append(Rule(["space","semicolon"],"No Space Before A Semicolon",reverse=True))
-	rules.append(Rule(["identifier",None,"return","space","identifier"],"return EXIT_SUCCESS;",lexs=["main",None,None,None,"EXIT_SUCCESS"]))
+	rules.append(Rule(["identifier",None,"return","space","identifier"],"single return statement 'return EXIT_SUCCESS;'",lexs=["main",None,None,None,"EXIT_SUCCESS"]))
 	
 	# add all the rules into the stylomatic
 	for rule in rules:
