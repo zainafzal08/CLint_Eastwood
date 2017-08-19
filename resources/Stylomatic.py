@@ -3,6 +3,13 @@ from Tokeniser import Token
 import sys
 import os
 
+# Rule defines something the stylomatic
+# should enforce
+# tokenArray : list of tokens that match
+#    - specifying the reverse flag causes a failure on match
+#    - specifying the lexs array helps match both token and lexme
+# ef : the expected form, i.e what the user should be shown as a example
+#      of a correctly formed token sequence
 class Rule():
 	def __init__(self,tokenArray,ef,**kargs):
 		self.tokenArray = tokenArray
@@ -18,6 +25,10 @@ class Rule():
 			if len(self.lexs) != len(self.tokenArray):
 				raise Exception("Supplied lexs array inconsistent with token array")
 
+# Stylomatic must be given indentWidth
+# on start so it knows how to enforce
+# works with all spaces or all tabs
+# but will error on a mix (with a relevant message)
 class Stylomatic():
 	def __init__(self,indentWidth):
 		self.rules = []
@@ -29,19 +40,10 @@ class Stylomatic():
 		self.rules.append(rule)
 	def enforceIndent(self,tokenType,change):
 		self.indentTriggers[tokenType] = change
-	def check(self,filename,debug):
-		self.filename = filename
-		tokeniser = Tokeniser.Tokeniser(filename)
-		indentWidth = self.indentWidth
-		rawTokens = []
-		while not tokeniser.complete:
-			t = tokeniser.getToken()
-			rawTokens.append(t)
-			if(debug):
-				t.show()
-		# convert indentWidth spaces / tabs to indents
+	def indentation(self,rawTokens):
 		i = 0
 		tokens = []
+		indentWidth = self.indentWidth
 		currIndentType = None
 		while i < len(rawTokens)-indentWidth:
 			token = rawTokens[i]
@@ -50,7 +52,7 @@ class Stylomatic():
 					currIndentType = "tab"
 				elif currIndentType != "tab":
 					self.raiseIndentFailure(token,"A Mix","Either All Tab Or All Space")
-					return
+					return None
 				tokens.append(Token("indent",token.lexme,token.line,token.char))
 			else:
 				indnt = True
@@ -61,7 +63,7 @@ class Stylomatic():
 						currIndentType = "space"
 					elif currIndentType != "space":
 						self.raiseIndentFailure(token,"A Mix","Either All Tab Or All Space")
-						return
+						return None
 					tokens.append(Token("indent",token.lexme,token.line,token.char))
 					i+=indentWidth-1
 				else:
@@ -75,10 +77,27 @@ class Stylomatic():
 					currIndentType = "tab"
 				elif currIndentType != "tab":
 					self.raiseIndentFailure(token,"A Mix","Either All Tab Or All Space")
-					return
+					return None
 				tokens.append(Token("indent",token.lexme,token.line,token.char))
 			else:
 				tokens.append(token)
+
+		return tokens
+	# check a file for style
+	def check(self,filename,debug):
+		# get raw tokens
+		self.filename = filename
+		tokeniser = Tokeniser.Tokeniser(filename)
+		rawTokens = []
+		while not tokeniser.complete:
+			t = tokeniser.getToken()
+			rawTokens.append(t)
+			if(debug):
+				t.show()
+		# convert indentWidth spaces / tabs to indents
+		tokens = self.indentation(rawTokens)
+		if tokens == None:
+			return
 		# enforce indenting
 		self.enforceIndenting(tokens)
 		# enforce rest of the rules
@@ -89,12 +108,17 @@ class Stylomatic():
 		currIndent = 0
 		expect = False
 		for i,t in enumerate(tokens):
+			# update the correct indent at this token
 			if t.type in self.indentTriggers:
 				correctIndent += self.indentTriggers[t.type]
+			# check if we reset the current indent
 			if(t.type == "newLine" and correctIndent > 0):
 				expect = True
 				currIndent = 0
 				continue
+			# if we are expecting a indent
+			# make sure we got exactly the expected
+			# indentation
 			if(expect):
 				if(currIndent == correctIndent):
 					expect = False
@@ -132,7 +156,15 @@ class Stylomatic():
 		print(self.filename+": Rule Failed @ line "+str(t.line)+": Expected "+rule.expectedForm)
 	def raiseIndentFailure(self,t,curr,correct):
 		self.failed = True
-		print(self.filename+ ": Rule Failed @ line "+str(t.line)+": Expected "+str(correct)+" Indent(s) But Got "+str(curr))
+		errMsg = ""
+		if t.lexme == " ":
+			errMsg += "Rule Failed @ line %d: "%t.line
+			errMsg += "Expected %d Indent(s) But Got %d "%(correct,curr)
+			errMsg += "(needed %d spaces)"%(correct*self.indentWidth)
+		else:
+			errMsg += "Rule Failed @ line %d: "%t.line
+			errMsg += "Expected %d Indent(s) But Got %d"%(correct,curr)
+		print(self.filename+ ": "+errMsg)
 
 if __name__ == "__main__":
 	# indent width is enforced at 4
@@ -140,10 +172,9 @@ if __name__ == "__main__":
 	# what should trigger a indent/unindent
 	styleomatic.enforceIndent("openBrace",1)
 	styleomatic.enforceIndent("closeBrace",-1)
-	# Rules
-	# NOTE: None = wildcard i.e .* in regex sorta
-	# NOTE: you can specify lexs for stuff like indentifiers
 
+	# Rules
+	# TODO: make it less messy
 	rules = []
 	rules.append(Rule(["if","space","openBracket"],"if<space>("))
 	rules.append(Rule(["else","space","openBrace"],"else<space>{"))
