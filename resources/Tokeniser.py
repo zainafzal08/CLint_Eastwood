@@ -17,7 +17,10 @@ class Token():
 # TODO: tokeniser assumes #define and #import end with new lines
 class Tokeniser():
 	def __init__(self, filename):
-		self.stream = InputStream(filename)
+		if filename == None:
+			self.stream = None
+		else:
+			self.stream = InputStream(filename)
 		self.complete = False
 		self.LL0TokenMap = {
 			# white space
@@ -43,7 +46,10 @@ class Tokeniser():
 			"<":("mathSymbol",None,False),
 			"=":("equals",None),
 			"\"":("stringLiteral","\"",True),
-			"'":("charLiteral","'",True)
+			"'":("charLiteral","'",True),
+			# special
+			"$":("doller",None,False),
+			"@":("at",None,False),
 		}
 		# token, lookahead -> token-type, terminating symbol, terminating symbol lookahead
 		self.LL1TokenMap = {
@@ -122,11 +128,13 @@ class Tokeniser():
 				return Token(self.LL0TokenMap[prev][0],curr,stream.currLine,stream.lineIndex)
 
 			# general token cases
+			if not self.stream.hasNext():
+				self.complete = True
 			# literal token
-			if re.match(r'\d+(\.\d*|\.)?',curr) and (stream.peek() == " " or stream.peek() == ";"):
+			if re.match(r'\d+(\.\d*|\.)?',curr) and (stream.peek() == " " or stream.peek() == ";" or not stream.hasNext()):
 				return Token("numberLiteral",curr,stream.currLine,stream.lineIndex)
 
 			# identifiers
-			if currLookAhead[1] != None and not re.match(r'\w',currLookAhead[1]):
+			if (currLookAhead[1] != None and not re.match(r'\w',currLookAhead[1])) or not stream.hasNext():
 				return Token("identifier",curr,stream.currLine,stream.lineIndex)
 		raise Exception("'"+curr+"' was not recognised as a token")

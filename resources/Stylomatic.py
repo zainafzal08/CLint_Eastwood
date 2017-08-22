@@ -1,7 +1,6 @@
 import Tokeniser
+from InputStream import InputStream
 from Tokeniser import Token
-import sys
-import os
 
 # Rule defines something the stylomatic
 # should enforce
@@ -142,6 +141,8 @@ class Stylomatic():
 					curr+=1
 				else:
 					continue
+			if rule.tokenArray[curr] == "at":
+				continue
 			# take into accounts lexme if we care
 			if t.type == rule.tokenArray[curr] and rule.lexs[curr] == None:
 				curr+=1
@@ -166,46 +167,28 @@ class Stylomatic():
 			errMsg += "Expected %d Indent(s) But Got %d"%(correct,curr)
 		print(self.filename+ ": "+errMsg)
 
-if __name__ == "__main__":
-	# indent width is enforced at 4
-	styleomatic = Stylomatic(4)
-	# what should trigger a indent/unindent
-	styleomatic.enforceIndent("openBrace",1)
-	styleomatic.enforceIndent("closeBrace",-1)
 
-	# Rules
-	# TODO: make it less messy
-	rules = []
-	rules.append(Rule(["if","space","openBracket"],"if<space>("))
-	rules.append(Rule(["else","space","openBrace"],"else<space>{"))
-	rules.append(Rule(["while","space","openBracket"],"while<space>("))
-	rules.append(Rule(["for","space","openBracket"],"for<space>("))
-	rules.append(Rule(["openBrace","newLine"],"A new line after {"))
-	rules.append(Rule(["openBrace","newLine"],"A new line after }"))
-	rules.append(Rule(["openBracket","space"],"No Space After A Open Bracket",reverse=True))
-	rules.append(Rule(["space","closeBracket"],"No Space Before A Close Bracket",reverse=True))
-	rules.append(Rule(["space","semicolon"],"No Space Before A Semicolon",reverse=True))
-	rules.append(Rule(["identifier",None,"return","space","identifier"],"single return statement 'return EXIT_SUCCESS;'",lexs=["main",None,None,None,"EXIT_SUCCESS"]))
-	
-	# add all the rules into the stylomatic
-	for rule in rules:
-		styleomatic.enforce(rule)
-
-	# handle command line arguments
-	if len(sys.argv) == 1:
-		exit(0)
-	for arg in sys.argv[1:]:
-		if arg[-2:] != ".c":
-			styleomatic.failed = True
-			print(arg+" is not a c file. Aborting...") 
-		elif not os.path.isfile(arg):
-			styleomatic.failed = True
-			print(arg+" cannot be found. Aborting...") 
+# helper function
+def generateRule(rules,expr,expectedForm,**kargs):
+	dummy = Tokeniser.Tokeniser(None)
+	dummy.stream = InputStream("",raw=expr)
+	reverse = False
+	lexs = []
+	exprArray = []
+	if expr[0:2] == "!!":
+		reverse = True
+	while not dummy.complete:
+		t = dummy.getToken()
+		if t.type == "doller":
+			exprArray.append(None)
 		else:
-			# actually trigger the stylomatic to check a file
-			styleomatic.check(arg,False)
-	if not styleomatic.failed:
-		print("Awesome Job! No Errors Found!")
+			exprArray.append(t.type)
+		if t.type == "identifier":
+			lexs.append(t.lexme)
+		else:
+			lexs.append(None)
+	rules.append(Rule(exprArray,expectedForm,reverse=reverse,lexs=lexs))
+
 
 
 

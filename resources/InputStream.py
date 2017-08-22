@@ -1,12 +1,16 @@
 class InputStream():
-	def __init__(self, filepath):
-		with open(filepath, 'r') as content_file:
-			self.raw = content_file.read()
-			self.data = list(self.raw)
-			self.currIndex = 0;
-			self.currLine = 1;
-			self.lineIndex = 0;
-			self.prev = None
+	def __init__(self, filepath, **kargs):
+		if "raw" in kargs:
+			self.data = list(kargs["raw"]);
+		else:
+			with open(filepath, 'r') as content_file:
+				self.raw = content_file.read()
+				self.data = list(self.raw)
+
+		self.currIndex = 0;
+		self.currLine = 1;
+		self.lineIndex = 0;
+		self.prev = None
 	def getNext(self):
 		if(self.currIndex < len(self.data)):
 			if(self.prev == '\n'):
