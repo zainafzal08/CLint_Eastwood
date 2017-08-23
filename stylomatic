@@ -3,5 +3,5 @@
 if [ $# -eq 0 ]; then
 	echo "Usage: ./stylomatic <files>"
 else
-	python ~z5059449/public_html/CLint_Eastwood/resources/stylomaticDriver.py $@
+	python resources/stylomaticDriver.py $@
 fi
