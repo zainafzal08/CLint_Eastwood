@@ -10,10 +10,7 @@ class Token():
 		self.line = line
 		self.char = char
 	def show(self):
-		if self.lexme != '\n':
-			print(self.type + " : "+self.lexme)
-		else :
-			print(self.type + " : \\n")
+            print "{:20}  @ ({:4}, {:3}) {}".format(self.type, self.line, self.char, repr(self.lexme))
 
 # TODO: line/index for multi line comments is a bit fucked yo.
 # TODO: tokeniser assumes #define and #import end with new lines
