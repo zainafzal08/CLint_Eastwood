@@ -108,7 +108,10 @@ class Stylomatic():
         # Show all the collectied errors
         def showErrors(self):
             self.errors.sort()
-            print "\n".join([err for line, err in self.errors])
+            errorMessages = [err for line, err in self.errors]
+            for i, error in enumerate(errorMessages):
+                if error != errorMessages[i-1]:
+                    print error
 
 	def enforceIndenting(self,tokens):
 		correctIndent = 0
