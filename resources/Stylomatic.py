@@ -171,12 +171,14 @@ class Stylomatic():
 # helper function
 def generateRule(rules,expr,expectedForm,**kargs):
 	dummy = Tokeniser.Tokeniser(None)
-	dummy.stream = InputStream("",raw=expr)
 	reverse = False
 	lexs = []
 	exprArray = []
 	if expr[0:2] == "!!":
 		reverse = True
+		expr = expr[2:]
+
+	dummy.stream = InputStream("",raw=expr)
 	while not dummy.complete:
 		t = dummy.getToken()
 		if t.type == "doller":
