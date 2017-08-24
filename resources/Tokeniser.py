@@ -1,5 +1,7 @@
 from InputStream import InputStream
-import re
+import re, string
+
+IDENTIFIER_CHARACTERS = list(string.letters + string.digits) + ["_"]
 
 class Token():
 	def __init__ (self,tokType,lex,line,char):
@@ -13,7 +15,7 @@ class Token():
 		else :
 			print(self.type + " : \\n")
 
-# TODO: line/index for multi line comments is a bit fucked yo. 
+# TODO: line/index for multi line comments is a bit fucked yo.
 # TODO: tokeniser assumes #define and #import end with new lines
 class Tokeniser():
 	def __init__(self, filename):
@@ -130,11 +132,19 @@ class Tokeniser():
 			# general token cases
 			if not self.stream.hasNext():
 				self.complete = True
-			# literal token
-			if re.match(r'\d+(\.\d*|\.)?',curr) and (stream.peek() == " " or stream.peek() == ";" or not stream.hasNext()):
-				return Token("numberLiteral",curr,stream.currLine,stream.lineIndex)
 
-			# identifiers
-			if (currLookAhead[1] != None and not re.match(r'\w',currLookAhead[1])) or not stream.hasNext():
-				return Token("identifier",curr,stream.currLine,stream.lineIndex)
+			# Literal float or int
+                        if not stream.hasNext():
+                            # End of stream
+			    return Token("identifier",curr,stream.currLine,stream.lineIndex)
+                        if re.match(r'\d+\.\d*',curr) and stream.peek() not in IDENTIFIER_CHARACTERS:
+                            # Float literal
+			    return Token("numberLiteral",curr,stream.currLine,stream.lineIndex)
+                        elif re.match(r'\d+',curr) and stream.peek() not in IDENTIFIER_CHARACTERS + ["."]:
+                            # Integer literal
+			    return Token("numberLiteral",curr,stream.currLine,stream.lineIndex)
+                        elif stream.peek() not in IDENTIFIER_CHARACTERS:
+			    # identifiers
+			    return Token("identifier",curr,stream.currLine,stream.lineIndex)
+
 		raise Exception("'"+curr+"' was not recognised as a token")
