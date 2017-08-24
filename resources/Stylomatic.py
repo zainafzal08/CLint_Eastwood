@@ -31,6 +31,7 @@ class Rule():
 class Stylomatic():
 	def __init__(self,indentWidth):
 		self.rules = []
+                self.errors = []
 		self.indentWidth = indentWidth
 		self.indentTriggers = {}
 		self.failed = False
@@ -102,6 +103,13 @@ class Stylomatic():
 		# enforce rest of the rules
 		for rule in self.rules:
 			self.enforceRule(rule,tokens)
+                        self.errors.sort()
+
+        # Show all the collectied errors
+        def showErrors(self):
+            self.errors.sort()
+            print "\n".join([err for line, err in self.errors])
+
 	def enforceIndenting(self,tokens):
 		correctIndent = 0
 		currIndent = 0
@@ -154,7 +162,8 @@ class Stylomatic():
 					self.raiseFailure(rule,t)
 	def raiseFailure(self,rule, t):
 		self.failed = True
-		print(self.filename+": Rule Failed @ line "+str(t.line)+": Expected "+rule.expectedForm)
+		error = self.filename+": Rule Failed @ line "+str(t.line)+": Expected "+rule.expectedForm
+                self.errors.append((t.line, error))
 	def raiseIndentFailure(self,t,curr,correct):
 		self.failed = True
 		errMsg = ""
@@ -165,7 +174,8 @@ class Stylomatic():
 		else:
 			errMsg += "Rule Failed @ line %d: "%t.line
 			errMsg += "Expected %d Indent(s) But Got %d"%(correct,curr)
-		print(self.filename+ ": "+errMsg)
+		error = self.filename+ ": "+errMsg
+                self.errors.append((t.line, error))
 
 
 # helper function

@@ -44,13 +44,14 @@ if len(sys.argv) == 1:
 for arg in sys.argv[1:]:
 	if arg[-2:] != ".c":
 		styleomatic.failed = True
-		print(arg+" is not a c file. Aborting...") 
+		print(arg+" is not a c file. Aborting...")
 	elif not os.path.isfile(arg):
 		styleomatic.failed = True
-		print(arg+" cannot be found. Aborting...") 
+		print(arg+" cannot be found. Aborting...")
 	else:
 		# actually trigger the stylomatic to check a file
 		# the False just turns off debugging
 		styleomatic.check(arg,False)
+                styleomatic.showErrors()
 if not styleomatic.failed:
 	print("Awesome Job! No Errors Found!")
