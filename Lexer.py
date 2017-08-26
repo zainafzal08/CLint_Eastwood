@@ -5,8 +5,8 @@ class Lexer():
 	def __init__(self,spec):
 		self.shorthands = {}
 		self.tokens = []
-		self.importTokenSpec(spec)
 		self.inputStream = None
+		self.importTokenSpec(spec)
 	def setInputStream(self, file):
 		self.inputStream = InputStream.InputStream(file)
 	def importTokenSpec(self,file):
