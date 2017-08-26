@@ -1,11 +1,14 @@
 import re
+import InputStream
 
 class Lexer():
 	def __init__(self,spec):
 		self.shorthands = {}
 		self.tokens = []
 		self.importTokenSpec(spec)
-
+		self.inputStream = None
+	def setInputStream(self, file):
+		self.inputStream = InputStream.InputStream(file)
 	def importTokenSpec(self,file):
 		f = open(file,'r')
 		lines = f.readlines()
@@ -30,7 +33,6 @@ class Lexer():
 				self.getT(line)
 			elif state == 2:
 				self.getSH(line)
-
 	def processRegex(self,regex):
 		final = regex
 		shorthands = re.search(r'{([^\{\}]*)}',regex)
@@ -49,7 +51,6 @@ class Lexer():
 		name = args[0]
 		regex = self.processRegex(args[1])
 		self.shorthands[name]=regex
-
 	def getT(self, line):
 		args = re.sub(r'\t+','\t',line).split("\t")
 		if args[0][0] == '"':
@@ -58,9 +59,10 @@ class Lexer():
 			regex = self.processRegex(args[0])
 		name = args[1]
 		self.tokens.append((regex,name))
-
+	def 
 
 
 if __name__ == "__main__":
 	l = Lexer("specs/C_Tokens_Simple.txt")
+	l.setInputStream("tests/test_basic.c")
 	print(l.tokens)
