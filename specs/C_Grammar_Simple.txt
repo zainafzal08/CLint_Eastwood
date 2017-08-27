@@ -379,7 +379,7 @@ jump_statement
 	| CONTINUE ';'
 	| BREAK ';'
 	| RETURN ';'
-	| RETURN exp ression ';'
+	| RETURN expression ';'
 	;
 
 translation_unit
