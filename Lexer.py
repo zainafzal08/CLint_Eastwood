@@ -1,14 +1,58 @@
 import re
 import InputStream
 
+class Token():
+	def __init__(self, type, lexme, line, col):
+		self.type = type
+		self.lexme = lexme
+		self.line = line
+		self.col = col
+	def __str__(self):
+		return self.type+" : "+self.lexme
 class Lexer():
 	def __init__(self,spec):
 		self.shorthands = {}
 		self.tokens = []
-		self.inputStream = None
+		self.file = None
+		self.filePointer = -1
+		self.line = 1
+		self.col = 0
 		self.importTokenSpec(spec)
+
 	def setInputStream(self, file):
-		self.inputStream = InputStream.InputStream(file)
+		f = open(file,'r')
+		self.file = f.read()
+		self.filePointer = 0
+		f.close()
+
+	def getNextToken(self):
+		if self.file == None:
+			raise Exception("To begin getting tokens first set a input stream")
+		if self.filePointer >= len(self.file):
+			return None
+		currFile = self.file[self.filePointer:]
+		for t in self.tokens:
+			regex = "^"+t[0]
+			s = re.search(regex,currFile)
+			if s != None:
+				lexme = s.group(0)
+				tType = t[1]
+				retToken = Token(tType,lexme,self.line,self.col)
+				if(t[1] == "NEWLINE"):
+					self.line+=1
+					self.col = 0
+				else:
+					self.col += len(lexme)
+				self.filePointer += len(lexme)
+				return retToken
+		# handle unknown token (might be in a comment, don't crash)
+		# note we don't handle lines, currFile[self.filePointer] != NEWLINE
+		# if it was the regex would catch it. 
+		self.filePointer+=1
+		self.col += 1
+		return Token("UNKNOWN_TOKEN","UNKNOWN",self.line,self.col)
+
+
 	def importTokenSpec(self,file):
 		f = open(file,'r')
 		lines = f.readlines()
@@ -35,16 +79,15 @@ class Lexer():
 				self.getSH(line)
 	def processRegex(self,regex):
 		final = regex
-		shorthands = re.search(r'{([^\{\}]*)}',regex)
+		shorthands = re.findall(r'{[^\{\}]*}',regex,re.IGNORECASE)
 		if shorthands == None:
 			return regex
-		if shorthands is not list:
-			shorthands = [shorthands]
-		for sh in shorthands:
-			if sh.group(1) in self.shorthands:
-				final = re.sub(sh.group(0),self.shorthands[sh.group(1)],final)
+		for shRaw in shorthands:
+			sh = shRaw[1:-1]
+			if sh in self.shorthands:
+				final = re.sub(shRaw,self.shorthands[sh],final)
 			else:
-				raise Exception("unknown shorthand: '"+sh.group(1)+"'")
+				raise Exception("unknown shorthand: '"+sh+"'")
 		return final
 	def getSH(self, line):
 		args = re.sub(r'\t+','\t',line).split("\t")
@@ -54,15 +97,15 @@ class Lexer():
 	def getT(self, line):
 		args = re.sub(r'\t+','\t',line).split("\t")
 		if args[0][0] == '"':
-			regex = args[0][1:-1]
+			regex = re.escape(args[0][1:-1])
 		else:
 			regex = self.processRegex(args[0])
 		name = args[1]
 		self.tokens.append((regex,name))
-	def 
-
 
 if __name__ == "__main__":
 	l = Lexer("specs/C_Tokens_Simple.txt")
 	l.setInputStream("tests/test_basic.c")
-	print(l.tokens)
+	t = l.getNextToken()
+	while t != None:
+		t = l.getNextToken()

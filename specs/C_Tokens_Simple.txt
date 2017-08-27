@@ -9,7 +9,8 @@ IS			(u|U|l|L)*
 %tokens
 "/*"			COMMENTSTART
 "*/"			COMMENTEND
-
+"#include"		INCLUDE
+"#define"		DEFINE
 "auto"			AUTO
 "break"			BREAK
 "case"			CASE
@@ -102,6 +103,7 @@ L?'(\\.|[^\\'])+'	CONSTANT
 "^"			'^'
 "|"			'|'
 "?"			'?'
+
 " "			SPACE
 \t			TAB
 \v			VTAB
