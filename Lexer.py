@@ -25,6 +25,9 @@ class Lexer():
 		self.filePointer = 0
 		f.close()
 
+	def getTokenList(self):
+		return list(map(lambda x: x[1].lower(), self.tokens))
+		
 	def getNextToken(self):
 		if self.file == None:
 			raise Exception("To begin getting tokens first set a input stream")
@@ -102,10 +105,3 @@ class Lexer():
 			regex = self.processRegex(args[0])
 		name = args[1]
 		self.tokens.append((regex,name))
-
-if __name__ == "__main__":
-	l = Lexer("specs/C_Tokens_Simple.txt")
-	l.setInputStream("tests/test_basic.c")
-	t = l.getNextToken()
-	while t != None:
-		t = l.getNextToken()
