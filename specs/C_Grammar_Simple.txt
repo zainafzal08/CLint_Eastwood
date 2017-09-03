@@ -3,8 +3,6 @@ primary_expression
 	| CONSTANT
 	| STRING_LITERAL
 	| '(' expression ')'
-	| INCLUDE IDENTIFIER expression
-	| DEFINE IDENTIFIER expression
 	;
 
 postfix_expression
@@ -253,7 +251,7 @@ direct_declarator
 	| '(' declarator ')'
 	| direct_declarator '[' constant_expression ']'
 	| direct_declarator '[' ']'
-	| direct_declarator '(' parameter_type_list ')'
+	| direct_declarator space '(' parameter_type_list ')'
 	| direct_declarator '(' identifier_list ')'
 	| direct_declarator '(' ')'
 	;
@@ -399,4 +397,8 @@ function_definition
 	| declaration_specifiers declarator compound_statement
 	| declarator declaration_list compound_statement
 	| declarator compound_statement
+	;
+
+blank_line
+	: newline
 	;
