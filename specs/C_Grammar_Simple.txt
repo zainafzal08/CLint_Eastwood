@@ -3,6 +3,8 @@ primary_expression
 	| CONSTANT
 	| STRING_LITERAL
 	| '(' expression ')'
+	| INCLUDE IDENTIFIER expression
+	| DEFINE IDENTIFIER expression
 	;
 
 postfix_expression

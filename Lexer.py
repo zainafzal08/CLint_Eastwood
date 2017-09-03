@@ -3,7 +3,7 @@ import InputStream
 
 class Token():
 	def __init__(self, type, lexme, line, col):
-		self.type = type
+		self.type = type.lower()
 		self.lexme = lexme
 		self.line = line
 		self.col = col
