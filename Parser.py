@@ -4,73 +4,13 @@ from Tree import Tree
 import re
 import logging, sys
 
-class Grammar():
-	def __init__(self,tokens,spec):
-		self.tokens = tokens
-		self.transformations = {}
-		self.firstSets = {}
-		self.root = None
-		self.importSpec(spec)
 
-	def showFirstSets(self):
-		for k in sorted(self.firstSets):
-			print(k)
-			for o in self.firstSets[k]:
-				print("    "+o)
-
-	def showTokens(self):
-		for t in self.tokens:
-			print(t)
-
-	def importSpec(self, file):
-		f = open(file,'r')
-		content = f.read()
-		f.close()
-		# clean the file and make it into a set of
-		# transforatiosn seperated by a special char '$'
-		content = content.replace('\n','')
-		content = re.sub(r'\s+',' ',content)
-		content = re.sub(r'[^\'];','$',content)
-		transformations = content.split("$")
-		
-		# add each to the grammer transformation set
-		for i,trs in enumerate(transformations):
-			trs = trs.strip()
-			if(len(trs) == 0):
-				continue
-			name = trs.split(":")[0].strip().lower()
-			options = list(map(lambda x: x.strip().lower(), trs.split(":")[1].split("|")))
-			self.transformations[name] = options
-			if i == 0:
-				self.root = name
-
-		# now get all the first sets
-		for trs in self.transformations.keys():
-			bootstrapPath = set()
-			bootstrapPath.add(trs)
-			self.firstSets[trs] = self.getFirstSet(self.transformations[trs],bootstrapPath)
-	
-	def getFirstSet(self,options,path):
-		result = set()
-		for option in options:
-			term = option.split(" ")[0]
-			if term in path:
-				continue
-			if term[0] == "'" or term in self.tokens:
-				result.add(term)
-			else:
-				pathCpy = path.copy()
-				pathCpy.add(term)
-				result |= self.getFirstSet(self.transformations[term],pathCpy)
-		return result
 
 class Parser():
 	def __init__(self, spec, l):
 		self.grammar = Grammar(l.getTokenList(),spec)
 		self.lexer = l
 		self.tree = Tree()
-		self.compilerTags = []
-		self.comments = []
 	# given a transformation and a token, return the 
 	# transformation that should be taken
 	def collapseOptions(self, trans, t):
@@ -82,8 +22,25 @@ class Parser():
 				continue
 			elif t.type in self.grammar.firstSets[term]:
 				return option
-		raise Exception("Attempt to decend into "+trans+ " failed due to mathc failure on "+t.type)
+		raise Exception("Attempt to decend into "+trans+ " failed due to match failure on "+t.type)
 
+	def nextToken(self):
+		t = self.lexer.getNextToken()
+		while self.isWhiteSpace(t):
+			self.tree.addTerminal(t)
+			t = self.lexer.getNextToken()
+		return t
+
+	def isWhiteSpace(self, t):
+		if t.type == "space":
+			return True
+		elif t.type == "newline":
+			return True
+		elif t.type == "tab":
+			return True
+		elif t.type == "vtab":
+			return True
+		return False
 	# decend into a given transformation
 	# updating the tree and terminating automatically
 	def decend(self, trans, t):
@@ -94,7 +51,7 @@ class Parser():
 			if term in self.grammar.tokens and term == t.type:
 				logging.debug("    accepting "+t.type)
 				self.tree.addTerminal(t)
-				t = self.lexer.getNextToken()
+				t = self.nextToken()
 			elif term in self.grammar.tokens and term != t.type:
 				raise Exception("unexpected token "+t.type + " needed "+term)
 			else:
@@ -119,8 +76,9 @@ class Parser():
 			t = l.getNextToken()
 		line.append(t)
 		self.compilerTags.append(line)
-		t = l.getNextToken()
+		t = self.nextToken()
 		return t
+
 	def handleComment(self,t):
 		logging.debug("    ...Recognised Comment")
 		comment = []
@@ -129,11 +87,11 @@ class Parser():
 			t = l.getNextToken()
 		comment.append(t)
 		self.comments.append(comment)
-		t = l.getNextToken()
+		t = self.nextToken()
 		return t
 
 	def parse(self):
-		t = self.lexer.getNextToken()
+		t = self.nextToken()
 		# once this returns, keep decending into the next
 		# valid transformation until finished
 		while t != None:
