@@ -1,20 +1,32 @@
+from Lexer import Lexer
+import re
+
 class Grammar():
 	def __init__(self,tokens,spec):
 		self.tokens = tokens
 		self.transformations = {}
 		self.root = None
-		self.importSpec(spec)
 		self.selectSet = {}
+		self.firstSetsFound = []
+		self.followSetsFound = []
+		self.importSpec(spec)
+
 	def showTokens(self):
 		for t in self.tokens:
 			print(t)
+
+	def show(self):
+		for trs in sorted(self.transformations):
+			print(trs+" -> "+self.transformations[trs][0])
+			for option in self.transformations[trs][1:]:
+				print("    |"+option)
 
 	def importSpec(self, file):
 		f = open(file,'r')
 		content = f.read()
 		f.close()
 		# clean the file and make it into a set of
-		# transforatiosn seperated by a special char '$'
+		# transforations seperated by a special char '$'
 		content = content.replace('\n','')
 		content = re.sub(r'\s+',' ',content)
 		content = re.sub(r'[^\'];','$',content)
@@ -25,8 +37,14 @@ class Grammar():
 			trs = trs.strip()
 			if(len(trs) == 0):
 				continue
-			name = trs.split(":")[0].strip().lower()
-			options = list(map(lambda x: x.strip().lower(), trs.split(":")[1].split("|")))
+			# regex extract mess
+			trs = re.sub(r'[^\']\:','$',trs)
+			name = trs.split("$")[0].strip().lower()
+			optionsRaw = trs.split("$")[1]
+			optionsRaw = re.sub(r'[^\']\|','$',optionsRaw)
+			optionsRaw = optionsRaw.split("$")
+			options = list(map(lambda x: x.strip().lower(),optionsRaw))
+
 			self.transformations[name] = options
 			if i == 0:
 				self.root = name
@@ -38,14 +56,19 @@ class Grammar():
 	def epsilon(self, term):
 		return False
 
+	# make less ugly lmao
 	def getFirstSet(self, trs):
-		result = Set()
+		result = set()
+		if trs in self.firstSetsFound:
+			return result
+		else:
+			self.firstSetsFound.append(trs)
 		for option in self.transformations[trs]:
 			for term in option.split(" "):
 				if term in self.tokens:
 					result.add(term)
 					break
-				elif not epsilon(term):
+				elif not self.epsilon(term):
 					result |= self.getFirstSet(term)
 					break
 				else:
@@ -54,7 +77,11 @@ class Grammar():
 
 	# in desperate need of a refactor
 	def getFollowSet(self, trs):
-		result = Set()
+		result = set()
+		if trs in self.followSetsFound:
+			return result
+		else:
+			self.followSetsFound.append(trs)
 		for trs in self.transformations:
 			for option in self.transformations[trs]:
 				optionList = option.split(" ")
@@ -71,23 +98,21 @@ class Grammar():
 								result |= self.getFollowSet(optionList[j])
 							if not self.epsilon(optionList[j]):
 								break
-							j++
+							j+=1
 						# check if we ran off the end
 						if j == len(optionList):
 							result |= self.getFollowSet(trs)
 		return result
 
 	def getSelectSet(self, transformation):
-		result =Set()
+		result = set()
+		self.firstSetsFound = []
 		result |= self.getFirstSet(transformation)
 		if self.epsilon(transformation):
+			self.followSetsFound = []
 			result |= self.getFollowSet(transformation)
 		return result
 
-	def getFirstSet(self, transformation):
-		pass
-	def getFollowSet(self, transformation):
-		pass
 
 if __name__ == "__main__":
 	# run the parser/lexer

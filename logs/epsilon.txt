@@ -1,0 +1,243 @@
+getting first set for storage_class_specifier
+options are: ['typedef', 'extern', 'static', 'auto', 'register']
+....Option: typedef
+........Term: typedef
+............Token Found
+....Option: extern
+........Term: extern
+............Token Found
+....Option: static
+........Term: static
+............Token Found
+....Option: auto
+........Term: auto
+............Token Found
+....Option: register
+........Term: register
+............Token Found
+returning from storage_class_specifier
+getting first set for expression_statement
+options are: ["';'", "expression ';'"]
+....Option: ';'
+........Term: ';'
+............Token Found
+....Option: expression ';'
+........Term: expression
+............Decending into expression
+getting first set for expression
+options are: ['assignment_expression', "expression ',' assignment_expression"]
+....Option: assignment_expression
+........Term: assignment_expression
+............Decending into assignment_expression
+getting first set for assignment_expression
+options are: ['conditional_expression', 'unary_expression assignment_operator assignment_expression']
+....Option: conditional_expression
+........Term: conditional_expression
+............Decending into conditional_expression
+getting first set for conditional_expression
+options are: ['logical_or_expression', "logical_or_expression '?' expression '"]
+....Option: logical_or_expression
+........Term: logical_or_expression
+............Decending into logical_or_expression
+getting first set for logical_or_expression
+options are: ['logical_and_expression', 'logical_or_expression or_op logical_and_expression']
+....Option: logical_and_expression
+........Term: logical_and_expression
+............Decending into logical_and_expression
+getting first set for logical_and_expression
+options are: ['inclusive_or_expression', 'logical_and_expression and_op inclusive_or_expression']
+....Option: inclusive_or_expression
+........Term: inclusive_or_expression
+............Decending into inclusive_or_expression
+getting first set for inclusive_or_expression
+options are: ['exclusive_or_expression', "inclusive_or_expression '", "' exclusive_or_expression"]
+....Option: exclusive_or_expression
+........Term: exclusive_or_expression
+............Decending into exclusive_or_expression
+getting first set for exclusive_or_expression
+options are: ['and_expression', "exclusive_or_expression '^' and_expression"]
+....Option: and_expression
+........Term: and_expression
+............Decending into and_expression
+getting first set for and_expression
+options are: ['equality_expression', "and_expression '&' equality_expression"]
+....Option: equality_expression
+........Term: equality_expression
+............Decending into equality_expression
+getting first set for equality_expression
+options are: ['relational_expression', 'equality_expression eq_op relational_expression', 'equality_expression ne_op relational_expression']
+....Option: relational_expression
+........Term: relational_expression
+............Decending into relational_expression
+getting first set for relational_expression
+options are: ['shift_expression', "relational_expression '<' shift_expression", "relational_expression '>' shift_expression", 'relational_expression le_op shift_expression', 'relational_expression ge_op shift_expression']
+....Option: shift_expression
+........Term: shift_expression
+............Decending into shift_expression
+getting first set for shift_expression
+options are: ['additive_expression', 'shift_expression left_op additive_expression', 'shift_expression right_op additive_expression']
+....Option: additive_expression
+........Term: additive_expression
+............Decending into additive_expression
+getting first set for additive_expression
+options are: ['multiplicative_expression', "additive_expression '+' multiplicative_expression", "additive_expression '-' multiplicative_expression"]
+....Option: multiplicative_expression
+........Term: multiplicative_expression
+............Decending into multiplicative_expression
+getting first set for multiplicative_expression
+options are: ['cast_expression', "multiplicative_expression '*' cast_expression", "multiplicative_expression '/' cast_expression", "multiplicative_expression '%' cast_expression"]
+....Option: cast_expression
+........Term: cast_expression
+............Decending into cast_expression
+getting first set for cast_expression
+options are: ['unary_expression', "'(' type_name ')' cast_expression"]
+....Option: unary_expression
+........Term: unary_expression
+............Decending into unary_expression
+getting first set for unary_expression
+options are: ['postfix_expression', 'inc_op unary_expression', 'dec_op unary_expression', 'unary_operator cast_expression', 'sizeof unary_expression', "sizeof '(' type_name ')'"]
+....Option: postfix_expression
+........Term: postfix_expression
+............Decending into postfix_expression
+getting first set for postfix_expression
+options are: ['primary_expression', "postfix_expression '[' expression ']'", "postfix_expression '(' ')'", "postfix_expression '(' argument_expression_list ')'", "postfix_expression '.' identifier", 'postfix_expression ptr_op identifier', 'postfix_expression inc_op', 'postfix_expression dec_op']
+....Option: primary_expression
+........Term: primary_expression
+............Decending into primary_expression
+getting first set for primary_expression
+options are: ['identifier', 'constant', 'string_literal', "'(' expression ')'"]
+....Option: identifier
+........Term: identifier
+............Token Found
+....Option: constant
+........Term: constant
+............Token Found
+....Option: string_literal
+........Term: string_literal
+............Token Found
+....Option: '(' expression ')'
+........Term: '('
+............Token Found
+returning from primary_expression
+....Option: postfix_expression '[' expression ']'
+........Term: postfix_expression
+............Decending into postfix_expression
+....Option: postfix_expression '(' ')'
+........Term: postfix_expression
+............Decending into postfix_expression
+....Option: postfix_expression '(' argument_expression_list ')'
+........Term: postfix_expression
+............Decending into postfix_expression
+....Option: postfix_expression '.' identifier
+........Term: postfix_expression
+............Decending into postfix_expression
+....Option: postfix_expression ptr_op identifier
+........Term: postfix_expression
+............Decending into postfix_expression
+....Option: postfix_expression inc_op
+........Term: postfix_expression
+............Decending into postfix_expression
+....Option: postfix_expression dec_op
+........Term: postfix_expression
+............Decending into postfix_expression
+returning from postfix_expression
+....Option: inc_op unary_expression
+........Term: inc_op
+............Token Found
+....Option: dec_op unary_expression
+........Term: dec_op
+............Token Found
+....Option: unary_operator cast_expression
+........Term: unary_operator
+............Decending into unary_operator
+getting first set for unary_operator
+options are: ["'&'", "'*'", "'+'", "'-'", "'~'", "'!'"]
+....Option: '&'
+........Term: '&'
+............Token Found
+....Option: '*'
+........Term: '*'
+............Token Found
+....Option: '+'
+........Term: '+'
+............Token Found
+....Option: '-'
+........Term: '-'
+............Token Found
+....Option: '~'
+........Term: '~'
+............Token Found
+....Option: '!'
+........Term: '!'
+............Token Found
+returning from unary_operator
+....Option: sizeof unary_expression
+........Term: sizeof
+............Token Found
+....Option: sizeof '(' type_name ')'
+........Term: sizeof
+............Token Found
+returning from unary_expression
+....Option: '(' type_name ')' cast_expression
+........Term: '('
+............Token Found
+returning from cast_expression
+....Option: multiplicative_expression '*' cast_expression
+........Term: multiplicative_expression
+............Decending into multiplicative_expression
+....Option: multiplicative_expression '/' cast_expression
+........Term: multiplicative_expression
+............Decending into multiplicative_expression
+....Option: multiplicative_expression '%' cast_expression
+........Term: multiplicative_expression
+............Decending into multiplicative_expression
+returning from multiplicative_expression
+....Option: additive_expression '+' multiplicative_expression
+........Term: additive_expression
+............Decending into additive_expression
+....Option: additive_expression '-' multiplicative_expression
+........Term: additive_expression
+............Decending into additive_expression
+returning from additive_expression
+....Option: shift_expression left_op additive_expression
+........Term: shift_expression
+............Decending into shift_expression
+....Option: shift_expression right_op additive_expression
+........Term: shift_expression
+............Decending into shift_expression
+returning from shift_expression
+....Option: relational_expression '<' shift_expression
+........Term: relational_expression
+............Decending into relational_expression
+....Option: relational_expression '>' shift_expression
+........Term: relational_expression
+............Decending into relational_expression
+....Option: relational_expression le_op shift_expression
+........Term: relational_expression
+............Decending into relational_expression
+....Option: relational_expression ge_op shift_expression
+........Term: relational_expression
+............Decending into relational_expression
+returning from relational_expression
+....Option: equality_expression eq_op relational_expression
+........Term: equality_expression
+............Decending into equality_expression
+....Option: equality_expression ne_op relational_expression
+........Term: equality_expression
+............Decending into equality_expression
+returning from equality_expression
+....Option: and_expression '&' equality_expression
+........Term: and_expression
+............Decending into and_expression
+returning from and_expression
+....Option: exclusive_or_expression '^' and_expression
+........Term: exclusive_or_expression
+............Decending into exclusive_or_expression
+returning from exclusive_or_expression
+....Option: inclusive_or_expression '
+........Term: inclusive_or_expression
+............Decending into inclusive_or_expression
+....Option: ' exclusive_or_expression
+........Term: '
+............Decending into '
+getting first set for '

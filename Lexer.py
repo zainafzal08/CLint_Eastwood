@@ -55,7 +55,6 @@ class Lexer():
 		self.col += 1
 		return Token("UNKNOWN_TOKEN","UNKNOWN",self.line,self.col)
 
-
 	def importTokenSpec(self,file):
 		f = open(file,'r')
 		lines = f.readlines()
