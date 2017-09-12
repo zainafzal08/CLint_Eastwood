@@ -1,6 +1,12 @@
 from Lexer import Lexer
 import re
 
+
+# Grammar object for storing and calculating
+# information on the C grammar. Includes redudant
+# features such as handling of epsilon and follow sets
+# just in case
+# the epsilon function always returns false lmao
 class Grammar():
 	def __init__(self,tokens,spec):
 		self.tokens = tokens
