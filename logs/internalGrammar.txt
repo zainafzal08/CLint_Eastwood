@@ -1,0 +1,126 @@
+abstract_declarator
+    set(["'*'", "'('", "'['"])
+additive_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+and_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+argument_expression_list
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+assignment_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+assignment_operator
+    set(['sub_assign', 'mod_assign', 'right_assign', 'xor_assign', 'or_assign', 'and_assign', 'mul_assign', 'div_assign', 'left_assign', "'='", 'add_assign'])
+cast_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+compound_statement
+    set(["'{'"])
+conditional_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+constant_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+declaration
+    set(['float', 'int', 'auto', 'void', 'enum', 'char', 'static', 'signed', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'long', 'volatile'])
+declaration_list
+    set(['enum', 'int', 'auto', 'void', 'float', 'char', 'static', 'long', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'signed', 'volatile'])
+declaration_specifiers
+    set(['enum', 'int', 'auto', 'void', 'float', 'char', 'static', 'long', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'signed', 'volatile'])
+declarator
+    set(["'*'", "'('", 'identifier'])
+direct_abstract_declarator
+    set(["'('", "'['"])
+direct_declarator
+    set(["'('", 'identifier'])
+enum_specifier
+    set(['enum'])
+enumerator
+    set(['identifier'])
+enumerator_list
+    set(['identifier'])
+equality_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+exclusive_or_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+expression_statement
+    set(['constant', 'string_literal', 'dec_op', "'-'", "';'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+external_declaration
+    set(['enum', 'int', 'auto', 'void', 'float', 'char', 'static', 'long', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'signed', "'('", 'volatile', "'*'", 'identifier'])
+function_definition
+    set(['float', 'int', 'auto', 'void', 'enum', 'char', 'static', 'signed', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'long', "'('", 'volatile', "'*'", 'identifier'])
+identifier_list
+    set(['identifier'])
+inclusive_or_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+init_declarator
+    set(["'*'", "'('", 'identifier'])
+init_declarator_list
+    set(["'*'", "'('", 'identifier'])
+initializer
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'{'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+initializer_list
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'{'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+iteration_statement
+    set(['do', 'while', 'for'])
+jump_statement
+    set(['break', 'continue', 'return', 'goto'])
+labeled_statement
+    set(['case', 'default', 'identifier'])
+logical_and_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+logical_or_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+multiplicative_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+parameter_declaration
+    set(['float', 'int', 'auto', 'void', 'enum', 'char', 'static', 'signed', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'long', 'volatile'])
+parameter_list
+    set(['enum', 'int', 'auto', 'void', 'float', 'char', 'static', 'long', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'signed', 'volatile'])
+parameter_type_list
+    set(['float', 'int', 'auto', 'void', 'enum', 'char', 'static', 'signed', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'long', 'volatile'])
+pointer
+    set(["'*'"])
+postfix_expression
+    set(["'('", 'constant', 'string_literal', 'identifier'])
+primary_expression
+    set(["'('", 'constant', 'string_literal', 'identifier'])
+relational_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+selection_statement
+    set(['switch', 'if'])
+shift_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+specifier_qualifier_list
+    set(['short', 'const', 'struct', 'int', 'double', 'void', 'enum', 'unsigned', 'long', 'char', 'union', 'float', 'volatile', 'signed'])
+statement
+    set(['do', 'constant', 'string_literal', "'{'", 'break', "';'", "'!'", 'return', 'sizeof', 'inc_op', "'&'", 'goto', 'case', 'identifier', "'('", "'~'", 'for', 'default', "'-'", 'switch', 'dec_op', 'while', 'continue', "'*'", 'if', "'+'"])
+statement_list
+    set(['do', 'constant', 'string_literal', 'continue', "'{'", 'break', 'if', "';'", "'!'", 'return', 'sizeof', 'inc_op', "'&'", 'goto', 'case', "'~'", 'for', 'default', "'-'", 'while', 'dec_op', 'switch', "'('", "'*'", 'identifier', "'+'"])
+storage_class_specifier
+    set(['extern', 'auto', 'typedef', 'register', 'static'])
+struct_declaration
+    set(['short', 'const', 'struct', 'int', 'double', 'void', 'enum', 'unsigned', 'long', 'char', 'union', 'float', 'volatile', 'signed'])
+struct_declaration_list
+    set(['short', 'const', 'struct', 'int', 'double', 'void', 'enum', 'unsigned', 'long', 'char', 'union', 'float', 'volatile', 'signed'])
+struct_declarator
+    set(["'*'", "'('", 'identifier', "':'"])
+struct_declarator_list
+    set(["'*'", "'('", 'identifier', "':'"])
+struct_or_union
+    set(['union', 'struct'])
+struct_or_union_specifier
+    set(['union', 'struct'])
+translation_unit
+    set(['float', 'int', 'auto', 'void', 'enum', 'char', 'static', 'signed', 'extern', 'typedef', 'short', 'const', 'struct', 'union', 'double', 'register', 'unsigned', 'long', "'('", 'volatile', "'*'", 'identifier'])
+type_name
+    set(['short', 'const', 'struct', 'int', 'double', 'void', 'enum', 'unsigned', 'long', 'char', 'union', 'float', 'volatile', 'signed'])
+type_qualifier
+    set(['const', 'volatile'])
+type_qualifier_list
+    set(['volatile', 'const'])
+type_specifier
+    set(['short', 'const', 'struct', 'int', 'double', 'void', 'enum', 'unsigned', 'long', 'char', 'union', 'float', 'volatile', 'signed'])
+unary_expression
+    set(['constant', 'string_literal', 'dec_op', "'-'", "'('", "'!'", "'*'", 'sizeof', 'identifier', 'inc_op', "'&'", "'+'", "'~'"])
+unary_operator
+    set(["'~'", "'!'", "'*'", "'-'", "'&'", "'+'"])

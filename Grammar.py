@@ -15,11 +15,16 @@ class Grammar():
 		for t in self.tokens:
 			print(t)
 
-	def show(self):
-		for trs in sorted(self.transformations):
-			print(trs+" -> "+self.transformations[trs][0])
-			for option in self.transformations[trs][1:]:
-				print("    |"+option)
+	def show(self,req):
+		if(req == "transformations"):
+			for trs in sorted(self.transformations):
+				print(trs+" -> "+self.transformations[trs][0])
+				for option in self.transformations[trs][1:]:
+					print("    |"+option)
+		elif(req == "select sets"):
+			for trs in sorted(self.selectSet):
+				print(trs)
+				print("    "+str(self.selectSet[trs]))
 
 	def importSpec(self, file):
 		f = open(file,'r')
@@ -119,4 +124,4 @@ if __name__ == "__main__":
 	l = Lexer("specs/C_Tokens_Simple.txt")
 	l.setInputStream("tests/test_basic.c")
 	grammar = Grammar(l.getTokenList(),"specs/C_Grammar_Simple.txt")
-	
+	grammar.show("select sets")
